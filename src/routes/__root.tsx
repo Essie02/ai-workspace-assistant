@@ -132,8 +132,24 @@ function RootComponent() {
 
   return (
     <QueryClientProvider client={queryClient}>
-      {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
-      <Outlet />
+      <TooltipProvider delayDuration={200}>
+        <div className="flex min-h-screen bg-background">
+          <AppSidebar />
+          <div className="flex min-w-0 flex-1 flex-col">
+            <MobileTopBar />
+            <main className="mx-auto w-full max-w-7xl flex-1 p-4 sm:p-6 lg:p-8">
+              {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
+              <Outlet />
+            </main>
+            <footer className="border-t border-border px-6 py-5 text-xs text-muted-foreground">
+              AI Workplace Productivity Assistant — AI-generated content should always be reviewed
+              before professional use.
+            </footer>
+          </div>
+        </div>
+        <Toaster position="top-right" richColors />
+      </TooltipProvider>
     </QueryClientProvider>
   );
 }
+
