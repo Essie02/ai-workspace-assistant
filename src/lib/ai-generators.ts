@@ -34,15 +34,15 @@ const variantSalt = () => Math.floor(Math.random() * 3);
 export function generateEmail(input: EmailInput): EmailOutput {
   const { purpose, recipient, tone, details, length } = input;
   const v = variantSalt();
-  const opener = toneOpeners[tone] ?? toneOpeners.Professional;
-  const closer = toneClosers[tone] ?? toneClosers.Professional;
+  const opener = toneOpeners[tone] ?? toneOpeners['Professional']!;
+  const closer = toneClosers[tone] ?? toneClosers['Professional']!;
 
   const subjectVariants = [
     `${capitalize(purpose)} — Next Steps and Requested Confirmation`,
     `Action Required: ${capitalize(purpose)}`,
     `${capitalize(purpose)}: Summary, Timeline and Owner Sign-off`,
   ];
-  const subject = subjectVariants[v];
+  const subject = subjectVariants[v] ?? subjectVariants[0]!;
 
   const detailLines = splitDetails(details);
 
@@ -120,8 +120,8 @@ export function generateEmail(input: EmailInput): EmailOutput {
     "[Phone] | [Email]",
   ];
 
-  const map: Record<string, string[]> = { Short: short, Medium: medium, Long: long };
-  const body = (map[length] ?? medium).join("\n");
+  const map: Record<string, string[]> = { Short: short as string[], Medium: medium as string[], Long: long as string[] };
+  const body = ((map[length] ?? medium) as string[]).join("\n");
   return { subject, body };
 }
 
